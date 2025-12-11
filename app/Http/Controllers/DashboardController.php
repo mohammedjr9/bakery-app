@@ -5,23 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Beneficiary;
 use App\Models\Receipt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // ✅ ضيف هذا السطر في الأعلى
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $data['beneficiaries_count'] = Beneficiary::count();
-        // $data['benef_day_count'] = Beneficiary::whereHas('receipts', function($q) use($request){
-        //     $q->where('due_date', now()->format('Y-m-d'));
-        // })->count();
-        // $data['receipts_day_count'] = Beneficiary::whereHas('receipts', function($q) use($request){
-        //     $q->whereDate('receipt_date', date('Y-m-d'));
-        // })->count();
-        // $data['not_receipts_day_count'] = Beneficiary::whereHas('receipts', function($q) use($request){
-        //     $q->where('due_date', now()->format('Y-m-d'))
-        //         ->whereNull('receipt_date');
-        // })->count();
-        return view('dashboard',$data);
-    }
+        // ⏱️ بداية القياس
+        $start = microtime(true);
 
+        $data['beneficiaries_count'] = Beneficiary::count();
+
+        // ⏱️ نهاية القياس
+        $end = microtime(true);
+        $executionTime = $end - $start;
+
+        // 🧾 سجل الوقت في ملف اللوج
+        Log::info("⏱️ Dashboard load time: {$executionTime} seconds");
+
+        return view('dashboard', $data);
+    }
 }

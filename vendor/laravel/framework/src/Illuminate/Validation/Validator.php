@@ -421,8 +421,8 @@ class Validator implements ValidatorContract
     /**
      * Replace each field parameter dot placeholder with dot.
      *
-     * @param  string  $value
-     * @return string
+     * @param  array  $parameters
+     * @return array
      */
     protected function replaceDotPlaceholderInParameters(array $parameters)
     {
@@ -1655,6 +1655,16 @@ class Validator implements ValidatorContract
         [$class, $method] = Str::parseCallback($callback, 'validate');
 
         return $this->container->make($class)->{$method}(...array_values($parameters));
+    }
+
+    /**
+     * Flush the validator's global state.
+     *
+     * @return void
+     */
+    public static function flushState()
+    {
+        static::$placeholderHash = null;
     }
 
     /**

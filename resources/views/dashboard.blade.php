@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('content')
 <div class="row">
+        <h1>لوحة التحكم</h1>
+
     {{-- <div class="col-md-3 col-sm-6 col-12">
       <div class="info-box">
         <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
